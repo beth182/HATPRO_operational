@@ -237,7 +237,7 @@ class multiobject():
         elif self.objclass == 'MET':
             self.__plot_MET_object__(ax)
         else:
-            print 'WARNING: no plotting routine for this object'
+            print('WARNING: no plotting routine for this object')
         
 
     def __plot_TP_object__(self,ax):

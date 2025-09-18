@@ -22,7 +22,7 @@ EMPTYSTRING = ''
 # - Customized exit.
 # -------------------------------------------------------------------
 def exit(msg):
-    print '\n[!] ERROR: %s\n' % msg
+    print('\n[!] ERROR: %s\n' % msg)
     sys.exit(-9)
 
 
@@ -33,7 +33,7 @@ def print_dict( x ):
 
     keys = x.keys(); keys.sort()
     for k in keys:
-        print '   %-20s %s' % (k,x[k])
+        print('   %-20s %s' % (k,x[k]))
 
 
 def get_filecode(infile, pathtorawfiles):
@@ -58,8 +58,8 @@ def get_filecode(infile, pathtorawfiles):
 #    #   file, then search for suitable files (pattern)
 #    current_directory = os.getcwd()
 #    os.chdir(config['datadir'])
-#    #print pattern
-#    #print type(pattern)
+#    #print(pattern)
+#    #print(type(pattern))
 #    # if pattern is a string
 #    if type(pattern) == type(''):
 #        files = glob.glob(pattern)
