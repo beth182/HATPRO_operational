@@ -1,0 +1,86 @@
+6795005     # Retrieval File ID-Code
+#
+# Retrieval Product :   Temperature Profile (elevation scanning) [K]
+RP=4
+# Retrieval Type    :   Linear Regression, plus a quadratic term 10 angles; 3 TBs zenith, 4 TBs BL
+RT=0
+# Retrieval based on:   Brightness Temp.
+RB=0
+# Customer ID       :   UIBK
+CC=  UIBK
+# Data Base
+DB=      1
+# Version Number
+VN=1
+# Retrieval Validity       :   Innsbruck radiosondes, height above see level 577 m
+# Radiosonde Info          :   Innsbruck soundings 1999-2005 2009-2012
+# Cloud Analysis Algorithm :    95.0% threshold, modified adiabatic
+# Other Topics             :   Multiple angle retrieval, TB_rausch:0.20K, 0.20K, T_gr_rausch:0.00K, p_gr_rausch:  0.0Pa, lwp_max: 3.0gm-2, lwp_min: 0.0gm-2, iwv_max: 80.0kgm-2, iwv_min: 0.1kgm-2
+# Regression diagnostics   :   offdiagn
+# Expertise                :   noexp; Months:  13.
+# -----------------Retrieval Input Parameters--------------------
+#
+# >>>>>>>>>>>>>>>>>>>Meteorological Sensors<<<<<<<<<<<<<<<<<<<<<<
+#       Environmental Surface Temperature Sensor
+TS=0
+#       Surface Humidity Sensor
+HS=0
+#       Barometric Pressure Sensor
+PS=0
+#       Infrared Radiometer
+IS=0
+#
+# >>>>>>>>Brightness Temp. at following Frequencies [GHz]:<<<<<<<
+FR=     51.260    52.280    53.860    54.940    56.660    57.300    58.000
+# >>>>>Measurements are performed at following Angles [DEG]:<<<<<
+AG=     90.000    30.000    19.200    14.400    11.400     8.400     6.600     5.400     4.800     4.200
+#
+#
+# ------------------Retrieval Output Parameters------------------
+#
+# >>>>>>>>>>>>Temperature at following Altitudes [m]:<<<<<<<<<<<<
+AL=      0.000    10.000    30.000    50.000    75.000   100.000   125.000   150.000   200.000   250.000   325.000   400.000   475.000   550.000   625.000   700.000   800.000   900.000  1000.000  1150.000  1300.000  1450.000  1600.000  1800.000  2000.000  2200.000  2500.000  2800.000  3100.000  3500.000  3900.000  4400.000  5000.000  5600.000  6200.000  7000.000  8000.000  9000.000 10000.000
+# ---------------------Retrieval Coefficients--------------------
+#
+# >>>>>>>>>>>>>>>>>>Offset<<<<<<<<<<<<<<<<<
+OS=        -11.48330228  # H=     0.000
+:           -7.31050017  # H=    10.000
+:            4.68065799  # H=    30.000
+:            9.05146684  # H=    50.000
+:            5.77938043  # H=    75.000
+:            5.62008038  # H=   100.000
+:            3.40187146  # H=   125.000
+:           -2.15609380  # H=   150.000
+:          -15.39258329  # H=   200.000
+:          -23.93154988  # H=   250.000
+:          -16.69933611  # H=   325.000
+:           -2.22153676  # H=   400.000
+:            6.36117830  # H=   475.000
+:           21.49162278  # H=   550.000
+:           23.65215679  # H=   625.000
+:           30.42727290  # H=   700.000
+:           39.21621744  # H=   800.000
+:           24.79552846  # H=   900.000
+:           -8.03547124  # H=  1000.000
+:          -45.70079162  # H=  1150.000
+:          -40.15899041  # H=  1300.000
+:          -24.72935358  # H=  1450.000
+:          -40.68829628  # H=  1600.000
+:          -38.55181683  # H=  1800.000
+:          -44.01008461  # H=  2000.000
+:          -56.10685994  # H=  2200.000
+:         -121.87875260  # H=  2500.000
+:         -245.59911788  # H=  2800.000
+:         -340.57655169  # H=  3100.000
+:         -410.31684066  # H=  3500.000
+:         -459.12554237  # H=  3900.000
+:         -431.82511477  # H=  4400.000
+:         -314.22283634  # H=  5000.000
+:         -141.12195600  # H=  5600.000
+:           70.15594469  # H=  6200.000
+:          458.33615094  # H=  7000.000
+:          990.70420880  # H=  8000.000
+:         1632.99079237  # H=  9000.000
+:         1865.28336208  # H= 10000.000
+# >>>>>>>>>>>Sensor Coefficients<<<<<<<<<<<
+

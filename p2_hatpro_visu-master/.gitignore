@@ -1,0 +1,12 @@
+config.conf~
+foo.bar.png
+main.py.bak
+r_scripts
+retrieval.py.bak
+sqlite
+sys.bak
+testdata
+*.pyc
+*.db
+venv
+*.bak
