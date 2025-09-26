@@ -13,7 +13,8 @@ os.environ['TZ'] = 'UTC'
 #sys.path.append('PyModules')
 
 from hatpro.PyModules import utils
-from PyModules.multiobject import multiobject as mo
+from hatpro.PyModules import multiobject as mo
+
 from PyModules.database import database
 from PyModules.doretrieval import doretrieval
 

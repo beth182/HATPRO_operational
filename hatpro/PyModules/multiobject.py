@@ -20,7 +20,8 @@ from scipy import interpolate as si
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.dates as mdates
-from matplotlib.mlab import griddata
+# from matplotlib.mlab import griddata
+from scipy.interpolate import griddata
 
 class multiobject():
 
