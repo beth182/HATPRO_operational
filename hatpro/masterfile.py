@@ -17,15 +17,11 @@ from hatpro.PyModules import multiobject as mo
 from hatpro.PyModules import database
 from hatpro.PyModules import TP
 from hatpro.PyModules import doretrieval
-
-from hatpro.PyModules import BRT
-
-
 from PyModules.BRT import BRT
-from PyModules.HPC import HPC
-from PyModules.MET import MET
-from PyModules.BLB import BLB
-import PyModules.dateUtils as dateUtils
+from hatpro.PyModules import HPC
+from hatpro.PyModules import MET
+from hatpro.PyModules import BLB
+from hatpro.PyModules import dateUtils
 
 # Configuration file
 config = {}

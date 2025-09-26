@@ -14,7 +14,8 @@
 # -------------------------------------------------------------------
 
 import sys, os
-from coefparser import coefparser
+# from coefparser import coefparser
+from hatpro.PyModules import coefparser
 import numpy as np
 import utils
 from datetime import datetime as dt

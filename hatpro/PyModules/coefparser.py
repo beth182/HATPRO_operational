@@ -65,23 +65,23 @@ class coefparser(object):
         # - Reading data
         self.parse_the_file()
 
-        #print len(self.content['FR'])
+        #print(len(self.content['FR']))
         #number_of_frequencies = len(self.content['FR'])
         #number_of_altitudes   = len(self.content['AL'])
         #for block in range(len(self.content['TL'])):
         #    ncol = int(len(self.content['TL'][block])/number_of_altitudes)
         #    self.content['TL'][block] = np.reshape( self.content['TL'][block], \
         #            (number_of_altitudes,ncol) ).shape
-        #    print self.content['TL'][block].shape
+        #    print(self.content['TL'][block].shape)
 
-        #print 'ich werfe hier beim reshapen alle anderen infos irgendwie weg'
-        #print self.content['TL']
-        #print len(self.content['TL'])
-        #print len(self.content['TL'][0])
+        #print('ich werfe hier beim reshapen alle anderen infos irgendwie weg')
+        #print(self.content['TL'])
+        #print(len(self.content['TL']))
+        #print(len(self.content['TL'][0]))
 
     def parse_the_file(self):
 
-        print '* Parsing coefficient file '+self.infile
+        print('* Parsing coefficient file '+self.infile)
 
         # - Dict to store the results
         self.content = {}
@@ -173,7 +173,7 @@ class coefparser(object):
                     # - Extracting 'variable' name
                     section_name = line.split('=')[0].strip() 
                     if not section_name in self.content.keys():
-                        print '  Adding section '+section_name
+                        print('  Adding section '+section_name)
                         self.content[section_name] = []
                     for elem in line.split('#')[0][3:].split(' '):
                         if len(elem) > 0:
@@ -210,10 +210,10 @@ class coefparser(object):
         # - Checking REQUIRED variables
         for key in self.REQUIRED.keys():
             if key in content.keys():
-                print ('  - {}:   {} '.format( self.REQUIRED[key], (content[key]) ))
+                print(('  - {}:   {} '.format( self.REQUIRED[key], (content[key]) )))
             else:
-                print '  ! Hanv\'t found %s in the header of the coefficient file!' % \
-                      ( self.REQUIRED[key] )
+                print('  ! Hanv\'t found %s in the header of the coefficient file!' % \
+                      ( self.REQUIRED[key] ))
 
     # ---------------------------------------------------------------
     # - Reshaping the coefficient blocks. We are reading them
@@ -247,7 +247,7 @@ class coefparser(object):
         
         # - Case a: only a vector of length self.altitudes
         if len(section_data) == len(self.altitudes()):
-            #print "  - Reshape %-2s:   %d x %d" % (section_name, len(self.altitudes()), 1)
+            #print("  - Reshape %-2s:   %d x %d" % (section_name, len(self.altitudes()), 1))
 
             # - 2d array with one column
             data = np.reshape( section_data, (len(self.altitudes()),1) )
@@ -257,7 +257,7 @@ class coefparser(object):
         # - Case b: matrix of size length self.altitudes vs. second dimension
         #   based on self.retrieval_type.
         elif len(section_data) == len(self.altitudes())*colnumber: 
-            #print "  - Reshape %-2s:   %d x %d" % (section_name, len(self.altitudes()), colnumber)
+            #print("  - Reshape %-2s:   %d x %d" % (section_name, len(self.altitudes()), colnumber))
 
             # - 2d array with one column
             data = np.reshape( section_data, (len(self.altitudes()),colnumber) )
@@ -266,9 +266,9 @@ class coefparser(object):
 
         # - Case c: totally empty, skip.
         elif len(section_data) == 0:
-            print "  - Cannot reshape %s, is empty. Unused. Skip." % (section_name)
+            print("  - Cannot reshape %s, is empty. Unused. Skip." % (section_name))
         else:
-            print "   huch ", len(section_data)
+            print("   huch ", len(section_data))
             sys.exit('EXIT: does not fit case a, b, or c in __reshape_section_data__')
 
 
