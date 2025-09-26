@@ -140,7 +140,7 @@ class TP(object):
         else:
             writehead = False
 
-        print '  Write data to '+filename
+        print('  Write data to '+filename)
 
         # - Take mean values of all samples
         data = np.mean(self.profile,1)
@@ -169,8 +169,8 @@ class TP(object):
     # ---------------------------------------------------------------
     def printdata(self):
 
-        print 'printdata method of class ' + self.__class__.__name__ + ' offline'
-        #print 'z T0 T1'
+        print('printdata method of class ' + self.__class__.__name__ + ' offline')
+        #print('z T0 T1')
         #for i in range(0,self.levels):
-        # print '%f %f %f' % tuple(self.data[i,])
+        # print('%f %f %f' % tuple(self.data[i,]))
 

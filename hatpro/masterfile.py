@@ -14,11 +14,13 @@ os.environ['TZ'] = 'UTC'
 
 from hatpro.PyModules import utils
 from hatpro.PyModules import multiobject as mo
+from hatpro.PyModules import database
+from hatpro.PyModules import TP
+from hatpro.PyModules import doretrieval
 
-from PyModules.database import database
-from PyModules.doretrieval import doretrieval
+from hatpro.PyModules import BRT
 
-from PyModules.TP import TP
+
 from PyModules.BRT import BRT
 from PyModules.HPC import HPC
 from PyModules.MET import MET

@@ -40,7 +40,7 @@ class doretrieval( object ):
             utils.exit('wrong input \'what\' to retrieval method. Please use \'rh\' or \'T\'')
 
         # - Loading coefficients
-        print '\n* Reading the coefficients file for {}: {}'.format(self.what, self.config['coef_'+self.what])
+        print('\n* Reading the coefficients file for {}: {}'.format(self.what, self.config['coef_'+self.what]))
         self.coef = coefparser({'infile':self.config['coef_'+self.what]})
 
         # - Getting averaged data from the database for
@@ -111,10 +111,10 @@ class doretrieval( object ):
         #   coefficients along the elevation angle of the scan while
         #   RT=1 (retrieval type 1) goes along frequencies
         if self.coef.retrieval_type() == 0:
-            print '  Retrieval type RT=0: coefficients for different angles'
+            print('  Retrieval type RT=0: coefficients for different angles')
             coef_dimension = self.coef.angles()
         elif self.coef.retrieval_type() == 1:
-            print '  Retrieval type RT=1: coefficients for different frequencies'
+            print('  Retrieval type RT=1: coefficients for different frequencies')
             coef_dimension = self.coef.frequencies()
         else:
             utils.exit('Cannot handle retrieval_type '+str(self.coef.retrieval_type())+'!! Stop!')
@@ -150,7 +150,7 @@ class doretrieval( object ):
         # -----------------------------------------------------------
         # - Adding linear coefficients 
         if 'TL' in content.keys() and len(content['TL']) > 0:
-            print '  Number of linear brigthness temperature coefficient sets: %d' % len(content['TL'])
+            print('  Number of linear brigthness temperature coefficient sets: %d' % len(content['TL']))
             for block in range(len(content['TL'])):
 
 
@@ -181,7 +181,7 @@ class doretrieval( object ):
                     if self.coef.retrieval_type() == 0:
                         x_info.append( [coef_dimension[0],self.coef.frequencies()[block]] )
                     else: #TODO: is this here needed at some time?
-        		print 'there is something wrong here, check L184 in doretrieval.'
+        		print('there is something wrong here, check L184 in doretrieval.')
                     x_exp.append(1)
         	# - if the first 3 X's are done, check if the next line actually has
         	#   the right amount of X's (10 for Temp, 7 for Humidity)
@@ -201,7 +201,7 @@ class doretrieval( object ):
         # - Adding quadratic coefficients 
         #   (basically goes the same as adding linear coefficients)
         if 'TQ' in content.keys() and len(content['TQ']) > 0:
-            print '  Number of quadratic brigthness temperature coefficient sets: %d' % len(content['TQ'])
+            print('  Number of quadratic brigthness temperature coefficient sets: %d' % len(content['TQ']))
             for block in range(len(content['TQ'])):
                 # - Check and add data
                 if not content['TQ'][0].shape[0] == beta.shape[0]:
@@ -255,7 +255,7 @@ class doretrieval( object ):
             #    for time in self.timestamp: 
             #        if line[0] == time and line[1] == info:
             #            result.append( line[2]**exp )
-            #            #print '%10d %10d %s %s %f'  % (line[0],time,line[2],info,exp)
+            #            #print('%10d %10d %s %s %f'  % (line[0],time,line[2],info,exp))
             # create a list of all the MET entries with the info wee interested in
             met_eq_info = [entry for entry in self.MET if entry[1] == info]
             # - the unity may have to be changed

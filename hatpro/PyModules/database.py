@@ -18,7 +18,7 @@ class database(object):
     def __init__(self,config):
 
         self.config = config
-        print self.config['dbfile']
+        print(self.config['dbfile'])
         self.__open_connection__()
 
     # ---------------------------------------------------------------
@@ -38,7 +38,7 @@ class database(object):
     # - Close connection to the sqlite3 database 
     # ---------------------------------------------------------------
     def close(self):
-        print '  Close db connection'
+        print('  Close db connection')
         self.con.close()
 
 
@@ -84,7 +84,7 @@ class database(object):
             #   timestamp (integer) + variable_name (char)
             #   value (float)
             #   unique key is on timestamp+sensor_name
-            print '  Create new table called '+tablename
+            print('  Create new table called '+tablename)
             str_list = []
             str_list.append('CREATE TABLE '+tablename+' (\n')
             str_list.append('  timestamp INTEGER NOT NULL,\n')
@@ -94,18 +94,18 @@ class database(object):
             str_list.append(');')
             sql = utils.EMPTYSTRING.join(str_list)
             cur = self.con.cursor()
-            print "----------------------------"
-            print "SQL: "+sql
-            print "----------------------------"
+            print("----------------------------")
+            print("SQL: "+sql)
+            print("----------------------------")
             cur.execute(sql);
-        #print '  Write data to '+tablename 
+        #print('  Write data to '+tablename)
 
         # - Put everything into the database
         sql = 'REPLACE INTO '+tablename+' (timestamp, variable, value) VALUES (?,?,?);'
         cur = self.con.cursor()
         cur.executemany(sql,data)
         self.con.commit()
-        print 'MET data written: %d lines to %s table' % (len(data),tablename)
+        print('MET data written: %d lines to %s table' % (len(data),tablename))
 
 
     # ---------------------------------------------------------------
@@ -119,7 +119,7 @@ class database(object):
             #   timestamp (integer) + variable_name (char)
             #   value (float)
             #   unique key is on timestamp+sensor_name
-            print '  Create new table called '+tablename
+            print('  Create new table called '+tablename)
             str_list = []
             str_list.append('CREATE TABLE '+tablename+' (\n')
             str_list.append('  timestamp INTEGER NOT NULL,\n')
@@ -129,18 +129,18 @@ class database(object):
             str_list.append(');')
             sql = utils.EMPTYSTRING.join(str_list)
             cur = self.con.cursor()
-            print "----------------------------"
-            print "SQL: "+sql
-            print "----------------------------"
+            print("----------------------------")
+            print("SQL: "+sql)
+            print("----------------------------")
             cur.execute(sql);
-        #print '  Write data to database ' + tablename  
+        #print('  Write data to database ' + tablename)
 
         # - Put everything into the database
         sql = 'REPLACE INTO '+tablename+' (timestamp, frequence, value) VALUES (?,?,?);'
         cur = self.con.cursor()
         cur.executemany(sql,data)
         self.con.commit()
-        #print '  data written: %d lines to %s table' % (len(data),tablename)
+        #print('  data written: %d lines to %s table' % (len(data),tablename))
 
 
     # ---------------------------------------------------------------
@@ -154,7 +154,7 @@ class database(object):
             #   timestamp (integer) + variable_name (char)
             #   value (float)
             #   unique key is on timestamp+sensor_name
-            print '  Create new table called '+tablename
+            print('  Create new table called '+tablename)
             str_list = []
             str_list.append('CREATE TABLE '+tablename+' (\n')
             str_list.append('  timestamp INTEGER NOT NULL,\n')
@@ -165,18 +165,18 @@ class database(object):
             str_list.append(');')
             sql = utils.EMPTYSTRING.join(str_list)
             cur = self.con.cursor()
-            print "----------------------------"
-            print sql
-            print "----------------------------"
+            print("----------------------------")
+            print(sql)
+            print("----------------------------")
             cur.execute(sql);
-        #print '  Write data to database '+tablename 
+        #print('  Write data to database '+tablename)
 
         # - Put everything into the database
         sql = 'REPLACE INTO '+tablename+' (timestamp, frequence, angle, value) VALUES (?,?,?,?);'
         cur = self.con.cursor()
         cur.executemany(sql,data)
         self.con.commit()
-        #print '  BLB data written: %d lines to table %s' % (len(data),tablename)
+        #print('  BLB data written: %d lines to table %s' % (len(data),tablename))
 
     ## SZABO ##
     def create_avg_table(self, tablename, nrdatacolumns):
@@ -189,19 +189,19 @@ class database(object):
         str_list.append(');')
         sql = utils.EMPTYSTRING.join(str_list)
         cur = self.con.cursor()
-        #print "----------------------------"
-        #print sql 
-        #print "----------------------------"
+        #print("----------------------------")
+        #print(sql)
+        #print("----------------------------")
         cur.execute(sql)
     
     ## SZABO ##
     def get_minmax_utc(self, tablename, minormax):
         sql = 'select {1}(timestamp) from {0};'.format(tablename, minormax)
         cur = self.con.cursor()
-        #print sql
+        #print(sql)
         cur.execute(sql)
         res = cur.fetchone()        
-        #print type(res[0])
+        #print(type(res[0]))
         return int(res[0])
     
     ## SZABO ##
@@ -225,7 +225,7 @@ class database(object):
             str_list.append('?')
         sql = sql + ','.join(str_list) + ')'
         sql = sql.format(tablename)
-        #print sql
+        #print(sql)
         cur.executemany(sql, data)
         self.con.commit()
 
@@ -240,7 +240,7 @@ class database(object):
             #   timestamp (integer) + variable_name (char)
             #   value (float)
             #   unique key is on timestamp+sensor_name
-            print '  Create new table called '+tablename
+            print('  Create new table called '+tablename)
             str_list = []
             str_list.append('CREATE TABLE '+tablename+' (\n')
             str_list.append('  timestamp INTEGER NOT NULL,\n')
@@ -250,18 +250,18 @@ class database(object):
             str_list.append(');')
             sql = utils.EMPTYSTRING.join(str_list)
             cur = self.con.cursor()
-            print "----------------------------"
-            print sql
-            print "----------------------------"
+            print("----------------------------")
+            print(sql)
+            print("----------------------------")
             cur.execute(sql);
-        #print '  Write data to '+tablename 
+        #print('  Write data to '+tablename)
 
         # - Put everything into the database
         sql = 'REPLACE INTO '+tablename+' (timestamp, altitude, value) VALUES (?,?,?);'
         cur = self.con.cursor()
         cur.executemany(sql,data)
         self.con.commit()
-        #print '  data written: %d lines to %s table' % (len(data),tablename)
+        #print('  data written: %d lines to %s table' % (len(data),tablename))
 
 
 
@@ -294,9 +294,9 @@ class database(object):
             minimum.append( res[0] ); maximum.append( res[1] )
 
         tfmt = '%Y-%m-%d %H:%M:%S'
-        print '  Overlapping time periode:'
-        print '  Minimum: '+dt.fromtimestamp(min(minimum)).strftime(tfmt)
-        print '  Maximum: '+dt.fromtimestamp(max(maximum)).strftime(tfmt)
+        print('  Overlapping time periode:')
+        print('  Minimum: '+dt.fromtimestamp(min(minimum)).strftime(tfmt))
+        print('  Maximum: '+dt.fromtimestamp(max(maximum)).strftime(tfmt))
 
         return min(minimum), max(maximum)
 
@@ -447,11 +447,11 @@ class database(object):
             begin = begin + time_sequence
     
         # - Visual
-        print '  Found %d propper periods overspanning %d minutes' % (len(periods),minutes)
+        print('  Found %d propper periods overspanning %d minutes' % (len(periods),minutes))
         tfmt = '%Y-%m-%d %H:%M:%S'
         for period in periods:
-            print '  - From %s to %s' % ( dt.fromtimestamp(period[0]).strftime(tfmt), \
-                                          dt.fromtimestamp(period[1]).strftime(tfmt) )
+            print('  - From %s to %s' % ( dt.fromtimestamp(period[0]).strftime(tfmt), \
+                                          dt.fromtimestamp(period[1]).strftime(tfmt) ))
     
     
         return periods
