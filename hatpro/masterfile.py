@@ -7,19 +7,13 @@
 
 # Python modules
 import os, sys
-import numpy as np
-import ipdb
-import matplotlib.pyplot as plt
-import sqlite3
-import math
-from datetime import datetime as dt
 
 # Self-written modules
 os.environ['TZ'] = 'UTC'
 #sys.path.append('PyModules')
-import PyModules.utils as utils
+
+from hatpro.PyModules import utils
 from PyModules.multiobject import multiobject as mo
-from PyModules.coefparser import coefparser
 from PyModules.database import database
 from PyModules.doretrieval import doretrieval
 
@@ -41,7 +35,7 @@ execfile(sys.argv[2] + os.sep + 'config.conf', config)
 # Find files
 # TODO: find files also in subdirectories and for specific date
 hourpattern = sys.argv[3]
-files = utils.get_files_from_path(sys.argv[1], ['*'+hourpattern+'.MET','*'+hourpattern+'.BLB','*'+hourpattern+'.BRT'])
+files = utils.get_files_from_path(sys.argv[1], ['*' + hourpattern + '.MET', '*' + hourpattern + '.BLB', '*' + hourpattern + '.BRT'])
 nrfilesfound = len(files)
 if nrfilesfound == 0:
     sys.exit('No Files Found!!')

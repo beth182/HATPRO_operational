@@ -7,28 +7,19 @@
 
 # Python modules
 import os, sys
-import numpy as np
-import ipdb
-import matplotlib.pyplot as plt
-import sqlite3
-import math
-from datetime import datetime as dt
 
 # Self-written modules
 os.environ['TZ'] = 'UTC'
 #sys.path.append('PyModules')
 import PyModules.utils as utils
 from PyModules.multiobject import multiobject as mo
-from PyModules.coefparser import coefparser
 from PyModules.database import database
-from PyModules.doretrieval import doretrieval
 
 from PyModules.TP import TP
 from PyModules.BRT import BRT
 from PyModules.HPC import HPC
 from PyModules.MET import MET
 from PyModules.BLB import BLB
-import PyModules.dateUtils as dateUtils
 
 # Configuration file
 config = {}
@@ -40,7 +31,7 @@ execfile(sys.argv[2] + os.sep + 'config.conf', config)
 
 # Find files
 # TODO: find files also in subdirectories and for specific date
-files = utils.get_files_from_path(sys.argv[1], ['*.MET','*.BLB','*.BRT'])
+files = utils.get_files_from_path(sys.argv[1], ['*.MET', '*.BLB', '*.BRT'])
 nrfilesfound = len(files)
 if nrfilesfound == 0:
     sys.exit('No Files Found!!')
