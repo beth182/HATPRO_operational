@@ -55,8 +55,10 @@ class doretrieval( object ):
             self.BLB = self.db.get_brightness_temp('BLB')
             #self.BLB = self.db.get_averaged_data(self.timestamp,'BLB')
             all_timestamps = [self.BLB[i][0] for i in range(0,len(self.BLB))]
-            for stamp in all_timestamps:
-        	if stamp not in self.timestamp: self.timestamp.append(stamp)
+            # BETH NOTE
+            # commenting out because of indentation issue?
+            # for stamp in all_timestamps:
+        	# if stamp not in self.timestamp: self.timestamp.append(stamp)
         # - Load BRT data here
         if self.what == 'rh':
             self.BRT = self.db.get_brightness_temp('BRT')
@@ -142,7 +144,9 @@ class doretrieval( object ):
             for sensor in ['TS','HS','PS','IS']:
                 if int(content[sensor][0]) == 1:
                     x_info.append( sensor );
-        	    x_exp.append(1)
+                    # BETH NOTE
+                    # This used to be one tab back - but put to here because if indentation error
+                    x_exp.append(1)
                     sensor_counter = sensor_counter+1
             if not sensor_counter == content['SL'][0].shape[1]:
                 utils.exit('Found more sensors which should be used as coefficients!')
@@ -181,8 +185,10 @@ class doretrieval( object ):
                     if self.coef.retrieval_type() == 0:
                         x_info.append( [coef_dimension[0],self.coef.frequencies()[block]] )
                     else: #TODO: is this here needed at some time?
-        		print('there is something wrong here, check L184 in doretrieval.')
-                    x_exp.append(1)
+                        # BETH NOTE
+                        # Moved indentation to what I assume is correct here
+                        # print('there is something wrong here, check L184 in doretrieval.')
+                        x_exp.append(1)
         	# - if the first 3 X's are done, check if the next line actually has
         	#   the right amount of X's (10 for Temp, 7 for Humidity)
                 elif not  content['TL'][block].shape[1] == len(coef_dimension):
@@ -263,14 +269,16 @@ class doretrieval( object ):
             factor_unity_conversion = 1
             if info == 'PS': factor_unity_conversion = 100
             for time in self.timestamp:
-        	# search for closest MET
-        	nearest_MET_line = met_eq_info[min(range(len(met_eq_info)), key=lambda x:abs(met_eq_info[x][0]-time))]
-        	# append MET data to result, but only if time difference is not too large
-        	if abs(time-nearest_MET_line[0]) < self.config['MET_time_difference']:
-        	    result.append(factor_unity_conversion*(nearest_MET_line[2])**exp)
-        	else:
-        	    result.append(0.0)
-            # for pressure, we need Pa instead of hPa -> multiply by 100
+                # BETH NOTE
+                #moving indentation to what I assume is correct here
+                # search for closest MET
+                nearest_MET_line = met_eq_info[min(range(len(met_eq_info)), key=lambda x:abs(met_eq_info[x][0]-time))]
+                # append MET data to result, but only if time difference is not too large
+                if abs(time-nearest_MET_line[0]) < self.config['MET_time_difference']:
+                    result.append(factor_unity_conversion*(nearest_MET_line[2])**exp)
+                else:
+                    result.append(0.0)
+                # for pressure, we need Pa instead of hPa -> multiply by 100
             return result
         # -----------------------------------------------------------
         def get_BRT_values(info,exp):
@@ -315,10 +323,12 @@ class doretrieval( object ):
             blb_eq_info = [entry for entry in self.BLB if entry[1]==info[1] and entry [2]==info[0]]
             # second loop over the timestamps to fill in the 'column' for the x_matrix
             for time in self.timestamp:
-        	# find index where timestamps correspond
+                # BETH NOTE
+                # changing indentation here to what I assume is correct
+                # find index where timestamps correspond
                 ind_matching_time = [i[0] for i in blb_eq_info].index(time)
-        	# append correct value
-        	result.append((blb_eq_info[ind_matching_time][3])**exp)
+                # append correct value
+                # result.append((blb_eq_info[ind_matching_time][3])**exp)
             return result
         # -----------------------------------------------------------
 
