@@ -24,8 +24,14 @@ from hatpro.PyModules import BLB
 from hatpro.PyModules import dateUtils
 
 # Configuration file
+# BETH ADDITION
+config_filepath = os.getcwd().replace('\\', '/') + '/' + 'config.conf'
+assert os.path.isfile(config_filepath)
 config = {}
-execfile(sys.argv[2] + os.sep + 'config.conf', config)
+# execfile(sys.argv[2] + os.sep + 'config.conf', config)
+
+with open(config_filepath) as f:
+    exec(f.read(), config)
 
 #------------------------------------------------------------------------------------
 # a) Read in files and store values in database
