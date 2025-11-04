@@ -6,12 +6,15 @@
 #		c) plot a profile
 
 # Python modules
-import os, sys
+import os
+import sys
+
+# Set timezone to UTC
+os.environ['TZ'] = 'UTC'
+
+
 
 # Self-written modules
-os.environ['TZ'] = 'UTC'
-#sys.path.append('PyModules')
-
 from hatpro.PyModules import utils
 from hatpro.PyModules import multiobject as mo
 from hatpro.PyModules import database
@@ -22,6 +25,7 @@ from hatpro.PyModules import HPC
 from hatpro.PyModules import MET
 from hatpro.PyModules import BLB
 from hatpro.PyModules import dateUtils
+#sys.path.append('PyModules')
 
 # Configuration file
 # BETH ADDITION
