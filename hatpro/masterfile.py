@@ -16,7 +16,7 @@ from hatpro.PyModules import multiobject as mo
 from hatpro.PyModules import database
 from hatpro.PyModules import TP
 from hatpro.PyModules import doretrieval
-from PyModules.BRT import BRT
+from hatpro.PyModules import BRT
 from hatpro.PyModules import HPC
 from hatpro.PyModules import MET
 from hatpro.PyModules import BLB
@@ -53,6 +53,8 @@ PATH_TO_RAWDATA_WITH_HOUR = f"{PATH_TO_RAWDATA}/H{HOUR}"
 # BETH ADDITION
 config_filepath = current_filepath + 'config.conf'
 assert os.path.isfile(config_filepath), f"Configuration file not found: {config_filepath}"
+
+
 config = {}
 # execfile(sys.argv[2] + os.sep + 'config.conf', config)
 
@@ -72,21 +74,25 @@ with open(config_filepath) as f:
 
 # Find files
 # TODO: find files also in subdirectories and for specific date
-hourpattern = sys.argv[3]
-files = utils.get_files_from_path(sys.argv[1],
-                                  ['*' + hourpattern + '.MET', '*' + hourpattern + '.BLB', '*' + hourpattern + '.BRT'])
+
+# Find files matching the hour pattern
+hourpattern = HOUR
+files = utils.get_files_from_path(PATH_TO_RAWDATA, [f"*{hourpattern}.MET", f"*{hourpattern}.BLB", f"*{hourpattern}.BRT"])
+
 nrfilesfound = len(files)
 if nrfilesfound == 0:
     sys.exit('No Files Found!!')
-print('* Found %d files in %s directory' % (nrfilesfound, sys.argv[1]))
+print(f'* Found {nrfilesfound} files in {PATH_TO_RAWDATA} directory')
 
 # Create 'multiobjects' - an invention of Reto to deal with the data and metadata
-TPres = mo()  # initialize an empty multiobject object to store the temperature results
-TPEres = mo()  # initialize an empty multiobject object to store the theta temp results
-HPCres = mo()  # initialize an empty multiobject object to store the humidity results
-BRTres = mo()  # initialize an empty multiobject object to store the brightness temps
-METres = mo()  # initialize an empty multiobject object to store meteorological values
-BLBres = mo()  # initialize an empty multiobject object to store boundary layer brightness temp
+TPres = mo.multiobject()  # initialize an empty multiobject object to store the temperature results
+TPEres = mo.multiobject()  # initialize an empty multiobject object to store the theta temp results
+HPCres = mo.multiobject()  # initialize an empty multiobject object to store the humidity results
+BRTres = mo.multiobject()  # initialize an empty multiobject object to store the brightness temps
+METres = mo.multiobject()  # initialize an empty multiobject object to store meteorological values
+BLBres = mo.multiobject()  # initialize an empty multiobject object to store boundary layer brightness temp
+
+
 
 # - Read all files and store the results into the
 #   multiobject classes.
@@ -101,35 +107,35 @@ print('\n* Loading binary HATPRO data now')
 for infile in files:
     # print(infile)
     # options for the file so that it can be passed into the modules
-    opts = {'infile': sys.argv[1] + os.sep + infile, 'config': config, 'theta': False, 'indegrees': True}
+    opts = {'infile': os.path.join(PATH_TO_RAWDATA, infile), 'config': config, 'theta': False, 'indegrees': True}
 
     # - Reading file type to decide what to do
     #   get_filecode extracts binary variable code
-    filecode = utils.get_filecode(infile, sys.argv[1])
+    filecode = utils.get_filecode(infile, PATH_TO_RAWDATA)
     # print('filecode={0}'.format(filecode))
     if filecode == 780798065 or filecode == 459769847:  # TPC or TPB
         # Theta false
-        T = TP(opts)  # binary read in
+        T = TP.TP(opts)  # binary read in
         TPres.add({'obj': T})
         # Theta true
         opts['theta'] = True
-        TE = TP(opts)
+        TE = TP.TP(opts)
         TPEres.add({'obj': TE})
 
     elif filecode == 117343673:  # HPC
-        H = HPC(opts)
+        H = HPC.HPC(opts)
         HPCres.add({'obj': H, 'relhum': True})
 
     elif filecode == 666666:  # BRT
-        B = BRT(opts)
+        B = BRT.BRT(opts)
         BRTres.add({'obj': B, })
 
     elif filecode == 599658944:  # MET (new version)
-        M = MET(opts)
+        M = MET.MET(opts)
         METres.add({'obj': M})
 
     elif filecode == 567845848:  # BLB
-        BL = BLB(opts)
+        BL = BLB.BLB(opts)
         BLBres.add({'obj': BL})
 
     else:
@@ -137,7 +143,7 @@ for infile in files:
 
 # write HATPRO rawdata into database
 print('\n* Writing binary HATPRO data now into database')
-db = database(config)
+db = database.database(config)
 try:
     db.writedata(METres)
 except:

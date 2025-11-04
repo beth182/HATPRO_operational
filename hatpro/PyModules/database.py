@@ -10,7 +10,7 @@
 
 import sys, os
 import sqlite3
-import utils
+from hatpro.PyModules import utils
 from datetime import datetime as dt
 
 class database(object):
