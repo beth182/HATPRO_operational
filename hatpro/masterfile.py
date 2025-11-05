@@ -64,8 +64,15 @@ with open(config_filepath) as f:
 
 
 
+config['dbfile'] = current_filepath + 'hatprodata.db'
 
+# ToDo: check these are the same as /mnt/imgi2-a/c7071039/imgi_wrapper_dev/hatpro/John/ files
 
+config['coef_rh'] = current_filepath + 'John/HZE_ibk_0112_V90_nosubset_ng_pg_0.35_0.35.RET'
+config['coef_T'] = current_filepath + 'John/TELQ_ibk_0112_V90_nosubset_ng_npg_0.20_0.20.RET'
+
+assert os.path.isfile(config['coef_rh']), f"coefficient file not found for RH: {config['coef_rh']}"
+assert os.path.isfile(config['coef_T']), f"coefficient file not found for T: {config['coef_T']}"
 
 
 # ------------------------------------------------------------------------------------
@@ -163,8 +170,8 @@ except:
 # b) Apply retrieval to calculate Temperature and humidity
 # -------------------------------------------------------------------------------
 print('\n* Applying retrieval now.')
-result_rh = doretrieval(config, db, 'rh').result
-result_t = doretrieval(config, db, 'T').result
+result_rh = doretrieval.doretrieval(config, db, 'rh').result
+result_t = doretrieval.doretrieval(config, db, 'T').result
 
 # print(result_rh[0])
 # print(result_rh[1])
@@ -172,6 +179,7 @@ result_t = doretrieval(config, db, 'T').result
 # print(result_rh[3])
 # print(result_rh[4])
 
+#up to here
 print(type(result_rh))
 
 print('\n* Writing result into database.')

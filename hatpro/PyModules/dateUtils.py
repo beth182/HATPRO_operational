@@ -18,12 +18,23 @@ def createDateTime(date):
 
 def createNextRoundMin(utc, minrange=10):
     actdt =  dt.datetime.utcfromtimestamp(utc)
-    minute = actdt.strftime("%M")
-    rangeminute = int(minute) / minrange
-    y = int(actdt.strftime("%y"))
+    # minute = actdt.strftime("%M")
+    minute = int(actdt.strftime("%M"))
+
+    rangeminute = minute // minrange
+
+    y = int(actdt.strftime("%Y"))
     m = int(actdt.strftime("%m"))
     d = int(actdt.strftime("%d"))
     H = int(actdt.strftime("%H"))
-    rangedt = dt.datetime(y,m,d,H,rangeminute*10,0,0,pytz.UTC)
+
+    # Ensure the minute value is valid (0–59)
+    minute_value = (rangeminute * minrange) % 60
+
+    # Construct the datetime object
+    # rangedt = dt.datetime(y,m,d,H,int(rangeminute*10),0,0,pytz.UTC)
+    rangedt = dt.datetime(y, m, d, H, minute_value, 0, 0, pytz.UTC)
+
     return int(time.mktime(rangedt.timetuple()))
+
 

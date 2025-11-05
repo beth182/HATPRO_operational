@@ -42,7 +42,7 @@ class doretrieval( object ):
 
         # - Loading coefficients
         print('\n* Reading the coefficients file for {}: {}'.format(self.what, self.config['coef_'+self.what]))
-        self.coef = coefparser({'infile':self.config['coef_'+self.what]})
+        self.coef = coefparser.coefparser({'infile':self.config['coef_'+self.what]})
 
         # - Getting averaged data from the database for
         #   what we need. We need MET and BLB for the temperature
@@ -56,10 +56,9 @@ class doretrieval( object ):
             self.BLB = self.db.get_brightness_temp('BLB')
             #self.BLB = self.db.get_averaged_data(self.timestamp,'BLB')
             all_timestamps = [self.BLB[i][0] for i in range(0,len(self.BLB))]
-            # BETH NOTE
-            # commenting out because of indentation issue?
-            # for stamp in all_timestamps:
-        	# if stamp not in self.timestamp: self.timestamp.append(stamp)
+            for stamp in all_timestamps:
+        	    if stamp not in self.timestamp: self.timestamp.append(stamp)
+
         # - Load BRT data here
         if self.what == 'rh':
             self.BRT = self.db.get_brightness_temp('BRT')
@@ -324,12 +323,10 @@ class doretrieval( object ):
             blb_eq_info = [entry for entry in self.BLB if entry[1]==info[1] and entry [2]==info[0]]
             # second loop over the timestamps to fill in the 'column' for the x_matrix
             for time in self.timestamp:
-                # BETH NOTE
-                # changing indentation here to what I assume is correct
                 # find index where timestamps correspond
                 ind_matching_time = [i[0] for i in blb_eq_info].index(time)
                 # append correct value
-                # result.append((blb_eq_info[ind_matching_time][3])**exp)
+                result.append((blb_eq_info[ind_matching_time][3])**exp)
             return result
         # -----------------------------------------------------------
 
@@ -364,7 +361,14 @@ class doretrieval( object ):
                 x_matrix[:,i] = get_obs_values(info,float(x_exp[i]))
             # - Brightness Temperatures (BLB/BRT-data)
             else:
-                x_matrix[:,i] = get_values(info,float(x_exp[i]))
+                try:
+                    x_matrix[:, i] = get_values(info, float(x_exp[i]))
+                except:
+                    # BETH BOTCH
+                    # error here with length of x_exp and x_info being different?
+                    x_exp_val = x_exp[i-1]
+                    x_exp.append(x_exp_val)
+                    x_matrix[:, i] = get_values(info, float(x_exp[i]))  # error here with length of x_exp and x_info being different?
 
         return x_matrix
 
