@@ -1,0 +1,74 @@
+#!/bin/bash
+# bash script here to define period that gets plotted
+# author: Lukas Lehner, lehner.lukas(at)hotmail.com
+# date: March 2017
+set -e
+export PYTHONPATH=$SYBASE/$SYBASE_OCS/python/python26_64r/lib
+export LD_LIBRARY_PATH=/usr/lib/oracle/11.2/client64/lib:$LD_LIBRARY_PATH
+export MPLBACKEND=Agg
+unset LANG
+
+# this scipt plots the HATPRO 24h image for whole days. It can be run once a day and plots the graphic for the day before today
+# or plots all the graphics since the last available plots.
+
+cd /mnt/imgi4-a/piano_oper/images/hatpro
+if [[ -z "$(ls hatpro_20*.png)" ]] # is there a file existing already? exit code 0: successfully found a file
+then
+  echo "No archive plot is yet existing. Please create an empty file with the format
+    hatpro_yyyymmdd.png with the date one day before where you want to start the archive"
+  exit
+fi
+archive='1'
+lastfilename=` ls hatpro_20*.png -t | head -1` # detect the last file
+numberinfilename=` echo $lastfilename | egrep -o [0-9]+` #returns numbers of a filename/string
+lastdate=`date -d $numberinfilename +%Y-%m-%d`
+yesterday=`date -d "1 day ago" '+%Y-%m-%d'`
+
+# loop from last day +1 to today (today excluded)
+pushd /mnt/imgi4-a/piano_oper/hatpro > /dev/null
+d="$lastdate"
+threshold=$(date -d 2014-07-01 +%s)
+lastd=$(date -d $d +%s)
+if [ $threshold -ge  $lastd ]; # make a threshold to the pre-plotting archive function
+then
+  echo "Last file has been created too long ago. Please create an empty file with the format yyyymmdd.png with the date one day before where you want to start the archive"
+  exit
+fi
+
+while [ "$d" != "$yesterday" ]; do 
+  d=$(date -I -d "$d + 1 day")
+  #echo $d':'
+  # produce daily plot for this date $d: start at 00z and end at $d+1 00z
+  startdate=`date -d "$d" '+%Y-%m-%d %H:%M'` # to ensure start at 00 and barbs every half hour: 00 30 mins, start the day before at 23:50h
+  startdate_small=`date -d "$d" '+%Y%m%d'` # to ensure start at 00 and barbs every half hour: 00 30 mins, start the day before at 23:50h
+  enddate=`date -d "$d+1 day" '+%Y-%m-%d %H:%M'`
+  enddate_small=`date -d "$d+1 day" '+%Y%m%d'`
+  enddate_small_plusone=`date -d "$d+2 day" '+%Y%m%d'`
+  
+  echo $startdate_small' - '$enddate_small
+  
+    if [[ $(hostname) == "lukas-ThinkPad-T420" ]]; then 
+        # just do nothing
+        user="lukas"
+    else
+            # hatpro wrapper: temperature and humidity data in separate files. Change path to the data files  in 'settings_url.py'.
+#            /home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 200 --begin $startdate_small --end $enddate_small  > /tmp/200_archiv.csv
+#            /home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 201 --begin $startdate_small --end $enddate_small > /tmp/201_archiv.csv
+#            /home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 202 --begin $startdate_small --end $enddate_small --noheader > /tmp/202_archiv.csv #without header: --noheader
+            # sybase query
+#            ssh acinn_sybase@meteo-data 'cd ~/Sybase2; ../virtualenv/bin/python getobs.py -t tawes -s 11320 --YYYYmmdd -b $startdate_small -e $enddate_small_plusone' > /tmp/11320_sybaseforhatpro_archiv.txt
+	pushd /mnt/imgi2-a/c7071039/imgi_wrapper_dev > /dev/null
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 200 --begin $startdate_small --end $enddate_small  > /mnt/imgi4-a/piano_oper/tmp/200_archiv.csv
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 201 --begin $startdate_small --end $enddate_small  > /mnt/imgi4-a/piano_oper/tmp/201_archiv.csv
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 202 --begin $startdate_small --end $enddate_small  > /mnt/imgi4-a/piano_oper/tmp/202_archiv.csv #without header: --noheader
+	popd > /dev/null
+	# sybase query
+	pushd ~acinn_sybase/Sybase2 > /dev/null
+	../virtualenv/bin/python getobs.py -t tawes -s 11320 --YYYYmmdd -b $startdate_small -e $enddate_small_plusone > /mnt/imgi4-a/piano_oper/tmp/11320_sybaseforhatpro_archiv.txt
+	popd > /dev/null
+    fi
+
+  
+  # run program
+  /mnt/imgi4-a/piano_oper/venv/bin/python main.py $startdate $enddate $archive || echo "Plot for ${startdate} - ${enddate} failed" # absolute paths!!
+done

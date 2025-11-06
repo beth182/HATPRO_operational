@@ -1,0 +1,40 @@
+#!/bin/bash
+# bash script here to define period that gets plotted
+# author: Lukas Lehner, lehner.lukas(at)hotmail.com
+# date: March 2017
+
+# operationally, 27 hours back from now
+offset=$(date +%M)
+offset=$(echo "$offset % 10" | bc) # minutes that elapsed since the last interval (10mins), integer between 0 and 9 
+startdate_raw=$(TZ=UTC date +%s -d "1 day 2 hours ago $offset minutes ago") # 24 hours ago, subtract offset and subtract 10 minutes (that are not plotted, see xlim settings in plot module)
+startdate=$(date -d @$startdate_raw "+%Y-%m-%d %H:%M")
+startdate_small=$(date -d @$startdate_raw "+%Y%m%d")
+
+enddate_raw=$(TZ=UTC date +%s -d "$startdate-1 day 1 hours") # add to starttime 23 = 24-1 hours. 10 minutes ago so that current profile is drawn on the right side
+enddate=$(date -d @$enddate_raw "+%Y-%m-%d %H:%M")
+enddate_small=$(date -d @$enddate_raw "+%Y%m%d") #enddate for hatpro wrapper
+enddate_small_plusone=$(date '+%Y%m%d' -d "$enddate + 1 day") #enddate for sybase query (last day excluded)
+
+if [[ $(hostname) == "lukas-ThinkPad-T420" ]]; then 
+# just do nothing
+user="lukas"
+else
+	# hatpro wrapper: temperature, humidity, weather station data in separate files. Change path to the data files  in 'settings_url.py'.
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 200 --begin $startdate_small --end $enddate_small > /tmp/200_operationell.csv
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 201 --begin $startdate_small --end $enddate_small > /tmp/201_operationell.csv
+	/home/c707/c7071039/virtualenv/bin/python /mnt/imgi2-a/c7071039/imgi_wrapper_dev/wrapper.py --station 202 --begin $startdate_small --end $enddate_small --noheader > /tmp/202_operationell.csv #without header: --noheader
+	# sybase query
+	ssh acinn_sybase@meteo-data 'cd ~/Sybase2; ../virtualenv/bin/python getobs.py -t tawes -s 11320 --YYYYmmdd -b $startdate_small -e $enddate_small_plusone' > /tmp/11320_sybaseforhatpro_operationell.txt
+fi
+
+############################
+# start main program
+############################
+archive='0' # 0: this task should not produce a archived graph (different plot)
+cd /mnt/data/lidar/lidar #change path
+/mnt/data/lidar/bin/python main.py $startdate $enddate $archive # absolute paths!!
+##startdate="2017-05-12 12:00" #settings for lukas
+##enddate="2017-05-13 15:00" #settings for lukas
+##python main.py $startdate $enddate $archive # absolute paths!!
+TZ='UTC'
+#date "+%Y-%m-%d_%H:%M:%S" > /mnt/data/lidar/images/hook.txt
