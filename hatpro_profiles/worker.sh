@@ -14,7 +14,7 @@ MONTH=$(TZ=UTC /bin/date -d "2 hour ago" +"%m")
 DAY=$(TZ=UTC /bin/date -d "2 hour ago" +"%d")
 HOUR=$(TZ=UTC /bin/date -d "2 hour ago" +"%H")
 
-# i.e. $1 -> /mnt/rawdata/hatpro/Y2023/M12/D15
+# i.e. $1 -> /mnt/rawdata/hatpro_profiles/Y2023/M12/D15
 PATH_TO_RAWDATA_RAW="/mnt/rawdata/hatpro/"
 #PATH_TO_RAWDATA_WITH_HOUR=${PATH_TO_RAWDATA}"Y"${YEAR}"/M"${MONTH}"/D"${DAY}"/H"${HOUR}
 PATH_TO_RAWDATA=${PATH_TO_RAWDATA_RAW}"Y${YEAR}/M${MONTH}/D${DAY}"

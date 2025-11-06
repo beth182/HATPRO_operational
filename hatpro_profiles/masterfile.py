@@ -11,16 +11,16 @@ import sys
 import datetime
 
 # Self-written modules
-from hatpro.PyModules import utils
-from hatpro.PyModules import multiobject as mo
-from hatpro.PyModules import database
-from hatpro.PyModules import TP
-from hatpro.PyModules import doretrieval
-from hatpro.PyModules import BRT
-from hatpro.PyModules import HPC
-from hatpro.PyModules import MET
-from hatpro.PyModules import BLB
-from hatpro.PyModules import dateUtils
+from hatpro_profiles.PyModules import utils
+from hatpro_profiles.PyModules import multiobject as mo
+from hatpro_profiles.PyModules import database
+from hatpro_profiles.PyModules import TP
+from hatpro_profiles.PyModules import doretrieval
+from hatpro_profiles.PyModules import BRT
+from hatpro_profiles.PyModules import HPC
+from hatpro_profiles.PyModules import MET
+from hatpro_profiles.PyModules import BLB
+from hatpro_profiles.PyModules import dateUtils
 
 # sys.path.append('PyModules')
 
@@ -66,7 +66,7 @@ with open(config_filepath) as f:
 
 config['dbfile'] = current_filepath + 'hatprodata.db'
 
-# ToDo: check these are the same as /mnt/imgi2-a/c7071039/imgi_wrapper_dev/hatpro/John/ files
+# ToDo: check these are the same as /mnt/imgi2-a/c7071039/imgi_wrapper_dev/hatpro_profiles/John/ files
 
 config['coef_rh'] = current_filepath + 'John/HZE_ibk_0112_V90_nosubset_ng_pg_0.35_0.35.RET'
 config['coef_T'] = current_filepath + 'John/TELQ_ibk_0112_V90_nosubset_ng_npg_0.20_0.20.RET'

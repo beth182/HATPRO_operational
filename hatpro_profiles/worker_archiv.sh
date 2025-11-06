@@ -18,7 +18,7 @@ MYEAR=$(date --date="$1" +'%Y')
 MMONTH=$(date --date="$1" +'%m')
 MDAY=$(date --date="$1" +'%d')
 
-# i.e. $1 -> /mnt/rawdata/hatpro/Y2015/M09/D12
+# i.e. $1 -> /mnt/rawdata/hatpro_profiles/Y2015/M09/D12
 PATH_TO_RAWDATA="/mnt/rawdata/hatpro/Y"${MYEAR}"/M"${MMONTH}"/D"${MDAY}
 echo ${PATH_TO_RAWDATA}
 

@@ -14,7 +14,7 @@ os.environ['TZ'] = 'UTC'
 import numpy as np
 
 
-from hatpro.PyModules import utils
+from hatpro_profiles.PyModules import utils
 
 from datetime import datetime as dt
 from scipy import interpolate as si
