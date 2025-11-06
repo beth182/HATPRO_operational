@@ -220,3 +220,4 @@ db.insert_avg_data('RESULT_rh_avg', avg_data_rh)
 db.insert_avg_data('RESULT_t_avg', avg_data_t)
 
 db.close()
+print('end')
